@@ -172,9 +172,7 @@ function BTable(props) {
             </TableRow>
           ))}
         </TableBody>
-
         <TableFooter>
-       
         </TableFooter>
       </Table>
     </TableContainer>
