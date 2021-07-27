@@ -38,6 +38,12 @@ function Pets() {
       .catch(err => console.log(err));
   }
 
+  function updatePet(status) {
+    API.updatePet(status)
+      .then(res => loadPets())
+      .catch(err => console.log(err));
+  }
+
   // Handles updating component state when the user types into the input field
   function handleInputChange(event) {
     const { name, value } = event.target;
@@ -48,15 +54,17 @@ function Pets() {
   // Then reload pets from the database
   function handleFormSubmit(event) {
     event.preventDefault();
-    if (formObject.title && formObject.author) {
+    if (formObject.name && formObject.status) {
       API.savePet({
         name: formObject.name,
-        species: formObject.species,
+        // species: formObject.species,
         status: formObject.status
       })
         .then(res => loadPets())
         .catch(err => console.log(err));
     }
+
+    
   };
 
     return (
@@ -68,16 +76,16 @@ function Pets() {
               <h2>Available Pets</h2>
             </Jumbotron>
             
-            <List>
+ <List>
                 {pets.map(pet => (
                   <ListItem key={pet.name}>
-                    <Link to={"/pets/status/available" + pet.status}>
+                    <Link to={"/pets/" + pet._id}>
                     
                       <strong>
                         {pet.name} by {pet.status}
                       </strong>
                     </Link>
-                    <DeleteBtn onClick={() => deletePet(pet._id)} />
+                    {/* <DeleteBtn onClick={() => updatePet(pet._id)} /> */}
                     <DeleteBtn onClick={() => deletePet(pet._id)} />
                   </ListItem>
                 ))}
@@ -85,7 +93,20 @@ function Pets() {
             
             
           </Col>
-
+{/* submit form */}
+<form>
+{/* <TextArea
+                onChange={handleInputChange}
+                name="synopsis"
+                placeholder="Synopsis (Optional)"
+              /> */}
+              {/* <FormBtn
+                onChange={!(formObject.name && formObject.status)}
+                onClick={handleFormSubmit}
+              >
+                Update Status
+              </FormBtn> */}
+            </form>
 
           {/* list of sold pets */}
           <Col size="md-6 sm-12">
@@ -102,7 +123,7 @@ function Pets() {
                         {pet.name} by {pet.status}
                       </strong>
                     </Link>
-                    <DeleteBtn onClick={() => deletePet(pet._id)} />
+                    {/* <DeleteBtn onClick={() => deletePet(pet._id)} /> */}
                     <DeleteBtn onClick={() => deletePet(pet._id)} />
                   </ListItem>
                 ))}
