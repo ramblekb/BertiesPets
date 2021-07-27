@@ -1,10 +1,6 @@
-// import { Button } from "@material-ui/core";
 import Axios from "axios";
 import React, { useState, useEffect } from "react";
-// import Table from "react-bootstrap/Table";
-// eslint-disable-next-line no-unused-vars
 import API from "../utils/API";
-import { DataGrid } from '@material-ui/data-grid';
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Table,
@@ -15,10 +11,11 @@ import {
   TableRow,
   Paper,
   Avatar,
-  // DataGrid,
+  Grid,
   Typography,
-  TablePagination,
+  // TablePagination,
   TableFooter,
+  Button,
 } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
@@ -54,27 +51,27 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-// let USERS = [ ], STATUSES = ['Active', 'Pending', 'Blocked'];
-// for(let i=0; i<14; i++) {
-// USERS[i] = {
-//    name: faker.name.findName( ),
-//    email: faker.internet.email( ),
-//    phone: faker.phone.phoneNumber( ),
-//    jobtitle: faker.name.jobTitle( ),
-//    company: faker.company.companyName( ),
-//    joinDate: faker.date.past( ).toLocaleDateString( 'en-US' ), 
-//    status: STATUSES[Math.floor(Math.random( ) * STATUSES.length)]
-// }
+function handleButtonClick(e) {
+  console.log(e.target.id)
+  console.log(e.target.name)
+  // console.log(e.target.petStatus)
+  if
+  API.put(e.target.id)
+}
+// make new object with now info and then do the put 
+// if e.status = sold change it to available
+// function handleButtonClick(e) {
+//   e.preventDefault();
+// this.setState(prevState => ({
+//   isToggleOn: !prevState.isToggleOn
+// }));
 // }
 
-// eslint-disable-next-line no-unused-vars
 function BTable() {
   const [pets, setPets] = useState([]);
 
   function loadPets() {
-    Axios.get(
-      "https://petstore.swagger.io/v2/pet/findByStatus?status=available"
-    ).then(function (response) {
+    API.getPets().then( (response) => {
       setPets(response.data);
     });
   }
@@ -89,7 +86,7 @@ function BTable() {
 
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [rowsPerPage, setRowsPerPage] = React.useState(0);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -117,59 +114,53 @@ function BTable() {
           {pets.map((pet) => (
             <TableRow key={pet.name}>
               <TableCell >
-                <DataGrid container>
-                  <DataGrid item lg={2}>
+                <Grid container>
+                  <Grid item lg={2}>
                     <Avatar alt={pet.name} src="." className={classes.avatar} />
-                  </DataGrid>
-                  <DataGrid item lg={10}>
+                  </Grid>
+                  <Grid item lg={10}>
                     <Typography className={classes.name}>{pet.name}</Typography>
+                    {/* <Button color="textSecondary" variant="body2">
+                      {pet.status}
+                    </Button> */}
                     <Typography color="textSecondary" variant="body2">
-                      {pet.email}
+                      {pet.photoUrl}
                     </Typography>
-                    <Typography color="textSecondary" variant="body2">
-                      {pet.phone}
-                    </Typography>
-                  </DataGrid>
-                </DataGrid>
+                  </Grid>
+                </Grid>
               </TableCell>
               <TableCell>
                 <Typography color="primary" variant="subtitle2">
-                  {pet.jobTitle}
+                  {pet.id}
                 </Typography>
                 <Typography color="textSecondary" variant="body2">
-                  {pet.company}
+                  {pet.photoUrl}
                 </Typography>
               </TableCell>
               <TableCell>{pet.joinDate}</TableCell>
               <TableCell>
-                <Typography
+                <button
                   className={classes.status}
                   style={{
                     backgroundColor:
-                      (pet.status === "Active" && "green") ||
-                      (pet.status === "Pending" && "blue") ||
-                      (pet.status === "Blocked" && "orange"),
-                  }}
+                      (pet.status === "available" && "green") ||
+                      (pet.status === "pending" && "blue") ||
+                      (pet.status === "sold" && "orange"),
+                  }} 
+                  alt="click this button to purchase pet" 
+                  onClick={handleButtonClick}
+                  id={pet._id}
+                  name={pet.name}
+                  petStatus={pet.status}
                 >
                   {pet.status}
-                </Typography>
+                </button>
               </TableCell>
             </TableRow>
           ))}
         </TableBody>
         <TableFooter>
-          <TablePagination
-            rowsPerPageOptions={[10, 25, 100]}
-//             pagination
-//   pageSize={5}
-//   rowCount={100}
-            component="div"
-            count={rowsPerPage.length}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onChangePage={handleChangePage}
-            onChangeRowsPerPag={handleChangeRowsPerPage}
-          />
+       
         </TableFooter>
       </Table>
     </TableContainer>
