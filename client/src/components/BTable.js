@@ -51,27 +51,41 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function handleButtonClick(e) {
-  console.log(e.target.id)
+// function handleButtonClick(e) {
+//   console.log(e.target.id)
+//   console.log(e.target.name)
+//   console.log(e.target.petStatus)
+//   if (e.target.id){
+
+//   }
+//   API.put(e.target.id)
+// }
+
+function handleInputChange(e) {
+  const [ name, value ] = e.target;
+  // setFormObject({ ...formObject, [name]: value });
   console.log(e.target.name)
-  // console.log(e.target.petStatus)
-  if
-  API.put(e.target.id)
+    console.log(e.target.id)
+  console.log(e.target.value)
 }
-// make new object with now info and then do the put 
-// if e.status = sold change it to available
+
 // function handleButtonClick(e) {
 //   e.preventDefault();
-// this.setState(prevState => ({
-//   isToggleOn: !prevState.isToggleOn
-// }));
+//   if (formObject.name && formObject.species) {
+//     API.savePet({
+//       name: formObject.name,
+//       species: formObject.species,
+//     })
+//       .then((res) => loadPets())
+//       .catch((err) => console.log(err));
+//   }
 // }
 
 function BTable() {
   const [pets, setPets] = useState([]);
 
   function loadPets() {
-    API.getPets().then( (response) => {
+    API.getPets().then((response) => {
       setPets(response.data);
     });
   }
@@ -83,6 +97,12 @@ function BTable() {
   useEffect(() => {
     console.log(pets);
   }, [pets]);
+
+  function updatePet(id) {
+    API.updatePet(id)
+      .then(res => loadPets())
+      .catch(err => console.log(err));
+  }
 
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
@@ -110,10 +130,10 @@ function BTable() {
             <TableCell className={classes.tableHeaderCell}>Status</TableCell>
           </TableRow>
         </TableHead>
-        <TableBody>        
+        <TableBody>
           {pets.map((pet) => (
             <TableRow key={pet.name}>
-              <TableCell >
+              <TableCell>
                 <Grid container>
                   <Grid item lg={2}>
                     <Avatar alt={pet.name} src="." className={classes.avatar} />
@@ -143,25 +163,36 @@ function BTable() {
                   className={classes.status}
                   style={{
                     backgroundColor:
-                      (pet.status === "available" && "green") ||
-                      (pet.status === "pending" && "blue") ||
-                      (pet.status === "sold" && "orange"),
-                  }} 
-                  alt="click this button to purchase pet" 
-                  onClick={handleButtonClick}
+                      (pet.status === "available" && "green") 
+                      // (pet.status === "pending" && "blue") ||
+                      // (pet.status === "sold" && "orange"),
+                  }}
+                  alt="click this button to mark as available"
+                  // disabled={!(formObject.name && formObject.species)}
+                  onClick={handleInputChange}
                   id={pet._id}
                   name={pet.name}
-                  petStatus={pet.status}
+                  statusValue={pet.status}
                 >
                   {pet.status}
+                </button>
+                <button 
+                    className={classes.status}
+                    style={{
+                    backgroundColor:
+                      (pet.status === "sold" && "orange")}}
+                      alt="click this button to mark as sold"
+
+                      onClick={() => updatePet(pet._id)}>
+                      {/* id={pet._id} */}
+                  {/* name={pet.name} */}
+                  status={pet.status}
                 </button>
               </TableCell>
             </TableRow>
           ))}
         </TableBody>
-        <TableFooter>
-       
-        </TableFooter>
+        <TableFooter></TableFooter>
       </Table>
     </TableContainer>
   );
