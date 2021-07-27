@@ -51,59 +51,59 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-// function handleButtonClick(e) {
-//   console.log(e.target.id)
-//   console.log(e.target.name)
-//   console.log(e.target.petStatus)
-//   if (e.target.id){
 
-//   }
-//   API.put(e.target.id)
-// }
+// make new object with now info and then do the put 
+// if e.status = sold change it to available
 
-function handleInputChange(e) {
-  const [ name, value ] = e.target;
-  // setFormObject({ ...formObject, [name]: value });
-  console.log(e.target.name)
-    console.log(e.target.id)
-  console.log(e.target.value)
-}
 
-// function handleButtonClick(e) {
-//   e.preventDefault();
-//   if (formObject.name && formObject.species) {
-//     API.savePet({
-//       name: formObject.name,
-//       species: formObject.species,
-//     })
-//       .then((res) => loadPets())
-//       .catch((err) => console.log(err));
-//   }
-// }
-
-function BTable() {
+function BTable(props) {
+  // initialize state
   const [pets, setPets] = useState([]);
 
+  // hnadle the event of the user clicking the status button to purchase a pet
+  function handleButtonClick(e) {
+    // store our information about the selected pet in variables
+    let petStatus = e.target.attributes.getNamedItem('data-status').value;
+    let name = e.target.name;
+    let species = e.target.attributes.getNamedItem('data-species').value
+    let id = e.target.id
+   
+    // condition to check the value of the petStatus // if it's currently available, then switch to pending, if pending then switch to sold, if sold then switch to available
+    if (petStatus === "available") {
+      petStatus = "pending"
+    } else if (petStatus === "sold") {
+      petStatus = "available"
+    } else if (petStatus === "pending") {
+      petStatus = "sold"
+    } 
+    // build an object in order to make a put request to update the selected pet
+    const petObj = {
+      name: name,
+      status: petStatus,
+      species: species,
+      _id: id
+    }
+    
+    // update the pet in the database while retaining all unchanged data
+    API.updatePet(id, petObj).then((res) => {
+    //  call load pets to alter state to trigger a rerender
+     loadPets();
+    })
+  
+  }
+
+  // load all pets from database
   function loadPets() {
-    API.getPets().then((response) => {
+    API.getPets().then( (response) => {
       setPets(response.data);
     });
   }
-  // Load all books and store them with setBooks
+  // acts like componentDidMount, fires when the page first loads
   useEffect(() => {
     loadPets();
   }, []);
 
-  useEffect(() => {
-    console.log(pets);
-  }, [pets]);
-
-  function updatePet(id) {
-    API.updatePet(id)
-      .then(res => loadPets())
-      .catch(err => console.log(err));
-  }
-
+  // initialize styles
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(0);
@@ -122,21 +122,19 @@ function BTable() {
       <Table className={classes.table} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell className={classes.tableHeaderCell}>User Name</TableCell>
-            <TableCell className={classes.tableHeaderCell}>Job Info</TableCell>
-            <TableCell className={classes.tableHeaderCell}>
-              Birth Date
-            </TableCell>
+            <TableCell className={classes.tableHeaderCell}>Pet Name</TableCell>
+            <TableCell className={classes.tableHeaderCell}>Species</TableCell>
             <TableCell className={classes.tableHeaderCell}>Status</TableCell>
           </TableRow>
         </TableHead>
-        <TableBody>
+        <TableBody>  
+          {/* Map through the pets state and generate a row in the table for every pet */}
           {pets.map((pet) => (
             <TableRow key={pet.name}>
-              <TableCell>
+              <TableCell >
                 <Grid container>
                   <Grid item lg={2}>
-                    <Avatar alt={pet.name} src="." className={classes.avatar} />
+                    <Avatar className={pet.name} src="." className={classes.avatar} />
                   </Grid>
                   <Grid item lg={10}>
                     <Typography className={classes.name}>{pet.name}</Typography>
@@ -149,50 +147,35 @@ function BTable() {
                   </Grid>
                 </Grid>
               </TableCell>
-              <TableCell>
-                <Typography color="primary" variant="subtitle2">
-                  {pet.id}
-                </Typography>
-                <Typography color="textSecondary" variant="body2">
-                  {pet.photoUrl}
-                </Typography>
-              </TableCell>
-              <TableCell>{pet.joinDate}</TableCell>
+              
+              <TableCell>{pet.species}</TableCell>
               <TableCell>
                 <button
                   className={classes.status}
                   style={{
                     backgroundColor:
-                      (pet.status === "available" && "green") 
-                      // (pet.status === "pending" && "blue") ||
-                      // (pet.status === "sold" && "orange"),
-                  }}
-                  alt="click this button to mark as available"
-                  // disabled={!(formObject.name && formObject.species)}
-                  onClick={handleInputChange}
+                      (pet.status === "available" && "green") ||
+                      (pet.status === "pending" && "blue") ||
+                      (pet.status === "sold" && "orange"),
+                  }} 
+                  alt="click this button to purchase pet" 
+                  onClick={handleButtonClick}
                   id={pet._id}
+                  data-species={pet.species}
                   name={pet.name}
-                  statusValue={pet.status}
+                  data-status={pet.status}
                 >
                   {pet.status}
                 </button>
-                <button 
-                    className={classes.status}
-                    style={{
-                    backgroundColor:
-                      (pet.status === "sold" && "orange")}}
-                      alt="click this button to mark as sold"
-
-                      onClick={() => updatePet(pet._id)}>
-                      {/* id={pet._id} */}
-                  {/* name={pet.name} */}
-                  status={pet.status}
-                </button>
               </TableCell>
+              
             </TableRow>
           ))}
         </TableBody>
-        <TableFooter></TableFooter>
+
+        <TableFooter>
+       
+        </TableFooter>
       </Table>
     </TableContainer>
   );

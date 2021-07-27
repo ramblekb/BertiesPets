@@ -17,5 +17,8 @@ export default {
   // Saves a pet to the database
   savePet: function(petData) {
     return axios.post("/api/pets", petData);
+  },
+  updatePet: function(id, petData) {
+    return axios.put("/api/pets/" + id, petData)
   }
 };
