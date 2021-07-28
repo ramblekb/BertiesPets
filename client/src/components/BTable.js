@@ -1,17 +1,18 @@
 import Axios from "axios";
 import React, { useState, useEffect } from "react";
 import API from "../utils/API";
-// import PetsIcon from '@material-ui/icons/Pets';
+import PetsIcon from '@material-ui/icons/Pets';
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Table,
   TableBody,
   TableCell,
-  TableContainer,
+  Container,
   TableHead,
   TableRow,
+  // PetsIcon,
   Paper,
-  Avatar,
+  // Avatar,
   Grid,
   Typography,
   // TablePagination,
@@ -20,29 +21,48 @@ import {
 } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    width: "100%"
+  },
   table: {
-    minWidth: 650,
-    right: 15,
-
+    width: '100%,'
   },
-  tableContainer: {
-    borderRadius: 15,
-    margin: "10px 10px",
-    marginLeft: 30,
-    maxWidth: 950,
+  paper: {
+    marginTop: theme.spacing(3),
+    width: "100%",
+    overflowX: "auto",
+    marginBottom: theme.spacing(2),
+    margin: "auto"
   },
-  tableHeaderCell: {
+  
+  tableHeaderName: {
+    paddingLeft: 60,
     fontWeight: "bold",
     backgroundColor: theme.palette.primary.dark,
     color: theme.palette.getContrastText(theme.palette.primary.dark),
   },
-  avatar: {
+  tableHeaderCell: {
+    margin: 'auto',
+    fontWeight: "bold",
+    backgroundColor: theme.palette.primary.dark,
+    color: theme.palette.getContrastText(theme.palette.primary.dark),
+  },
+  petsIcon: {
+    fontSize: 'small',
+    marginRight: 10,
+
     backgroundColor: theme.palette.primary.light,
     color: theme.palette.getContrastText(theme.palette.primary.light),
   },
   name: {
+    marginRight: 10,
+    marginLeft: 20,
     fontWeight: "bold",
     color: theme.palette.secondary.dark,
+  },
+  species: {
+    fontWeight: "bold",
+    color: theme.palette.secondary.light,
   },
   status: {
     fontWeight: "bold",
@@ -53,26 +73,28 @@ const useStyles = makeStyles((theme) => ({
     padding: "3px 10px",
     display: "inline-block",
   },
+  // button: {
+  //   fontSize: 'medium',
+  // }
 }));
+// Main Objective: make new object with new info then call put operation with conditions such as if e.status = "sold" then change it to "available"
 
-
-// make new object with now info and then do the put 
-// if e.status = sold change it to available
-
-
+// functional component accepting props ie.properties object argument with data and returns an element
 function BTable(props) {
   // initialize state
   const [pets, setPets] = useState([]);
 
-  // hnadle the event of the user clicking the status button to purchase a pet
+  // handle the event of the user clicking the status button to purchase a pet
   function handleButtonClick(e) {
-    // store our information about the selected pet in variables
+    // store our information about the selected pet in value 
+     // The getNamedItem() method returns the attribute node with the specified name
+    // A reference to the object on which the event originally occured 
     let petStatus = e.target.attributes.getNamedItem('data-status').value;
     let name = e.target.name;
     let species = e.target.attributes.getNamedItem('data-species').value
     let id = e.target.id
    
-    // condition to check the value of the petStatus // if it's currently available, then switch to pending, if pending then switch to sold, if sold then switch to available
+    // condition statement to check the value of the petStatus // if it's currently available, then switch to pending, if pending then switch to sold, if sold then switch to available
     if (petStatus === "available") {
       petStatus = "pending"
     } else if (petStatus === "sold") {
@@ -88,14 +110,12 @@ function BTable(props) {
       _id: id
     }
     
-    // update the pet in the database while retaining all unchanged data
+    // update the pet in the database while retaining all unchanged data with a promise method
     API.updatePet(id, petObj).then((res) => {
     //  call load pets to alter state to trigger a rerender
      loadPets();
     })
-  
   }
-
   // load all pets from database
   function loadPets() {
     API.getPets().then( (response) => {
@@ -122,11 +142,12 @@ function BTable(props) {
   };
 
   return (
-    <TableContainer component={Paper} className={classes.tableContainer}>
+    <Container fixed>
+    <Paper className={classes.paper}>
       <Table className={classes.table} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell className={classes.tableHeaderCell}>Pet Name</TableCell>
+            <TableCell className={classes.tableHeaderName}>Pet Name</TableCell>
             <TableCell className={classes.tableHeaderCell}>Species</TableCell>
             <TableCell className={classes.tableHeaderCell}>
 
@@ -137,31 +158,35 @@ function BTable(props) {
         <TableBody>  
           {/* Map through the pets state and generate a row in the table for every pet */}
           {pets.map((pet) => (
-            <TableRow key={pet.name}>
+            <TableRow className={classes.name} key={pet.name}>
               <TableCell >
                 <Grid container>
                   <Grid item lg={2}>
-                    <Avatar src={'../images/8.jpg'} className={classes.avatar} />
+                    <PetsIcon src={''} className={classes.petsIcon} />
                   </Grid>
                   <Grid item lg={10}>
                     <Typography className={classes.name}>{pet.name}</Typography>
-                    {/* <Button color="textSecondary" variant="body2">
-                      {pet.status}
-                    </Button> */}
-                    <Typography color="textSecondary" variant="body2">
+                    {/* <Typography color="textSecondary" variant="body2">
                       {pet.photoUrl}
-                    </Typography>
+                    </Typography> */}
                   </Grid>
                 </Grid>
               </TableCell>
-              
-              <TableCell>{pet.species}</TableCell>
+              {/* SPECIES column */}
+              <TableCell >
+                <Grid container>
+                  <Grid item lg={2}>
+                  </Grid>
+                  <Grid item lg={10}>
+                    <Typography variant="body2" className={classes.species}>{pet.species}</Typography>
+                  </Grid>
+                </Grid>
+              </TableCell>
               <TableCell></TableCell>
-
               <TableCell>
                 <button
                   className={classes.status}
-                  style={{
+                  style={{ fontSize: 'medium',
                     backgroundColor:
                       (pet.status === "available" && "green") ||
                       (pet.status === "pending" && "blue") ||
@@ -183,7 +208,8 @@ function BTable(props) {
         <TableFooter>
         </TableFooter>
       </Table>
-    </TableContainer>
+    </Paper>
+    </Container>
   );
 }
 
