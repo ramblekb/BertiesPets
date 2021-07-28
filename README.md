@@ -1,70 +1,14 @@
-# Getting Started with Create React App
+Bertie’s Pets
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Berties Pets is a full stack app that loads, deletes and updates a list of pets in a database. It is a mock petstore manager allowing staff to change the status of their pets from ‘available’ ‘pending’ and ‘sold’ then saving that data in the database. This is a MERN full stack that executes CRUD operations. I built this application to be a fast and secure method of updating status and displaying data. The app simplifies updating status. It is quick, easy and does not rely on page reload. The app is a centralized record for all the pets that have been accepted into the petstore database. Building the app I learned how to use unique attributes to update an objects state. I also learned material ui’s pagination styles. This application is successful in achieving its goal with very little navigation or ui. It is also lightweight and a single component therefore easily added to other applications if you wanted. 
 
-## Available Scripts
+The app is built on Reactjs with node modules mongoose, express, react router, axios, material ui and bootstrap. When the server starts the app listens to mongodb on port 3001 and port 3000 compiles the components and displays the app. 
 
-In the project directory, you can run:
+STEPS
+Step 1) clone GitHub repository 
+Step 2) npm install node modules, create package.Json locked
+Step 3) start mongodb by running mongod in terminal and connect to mongodb (leave running in background)
+Step 4) npm start in root directory: and you should successfully be listening to the API server running on 3001 & client should compile and display on your https localhost 3000
+Step 5) click the colored button to update pet status 
 
-### `yarn start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `yarn test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `yarn build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
