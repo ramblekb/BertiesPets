@@ -1,6 +1,7 @@
 import Axios from "axios";
 import React, { useState, useEffect } from "react";
 import API from "../utils/API";
+// import PetsIcon from '@material-ui/icons/Pets';
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Table,
@@ -21,10 +22,13 @@ import {
 const useStyles = makeStyles((theme) => ({
   table: {
     minWidth: 650,
+    right: 15,
+
   },
   tableContainer: {
     borderRadius: 15,
     margin: "10px 10px",
+    marginLeft: 30,
     maxWidth: 950,
   },
   tableHeaderCell: {
@@ -124,6 +128,9 @@ function BTable(props) {
           <TableRow>
             <TableCell className={classes.tableHeaderCell}>Pet Name</TableCell>
             <TableCell className={classes.tableHeaderCell}>Species</TableCell>
+            <TableCell className={classes.tableHeaderCell}>
+
+            </TableCell>
             <TableCell className={classes.tableHeaderCell}>Status</TableCell>
           </TableRow>
         </TableHead>
@@ -134,7 +141,7 @@ function BTable(props) {
               <TableCell >
                 <Grid container>
                   <Grid item lg={2}>
-                    <Avatar className={pet.name} src="." className={classes.avatar} />
+                    <Avatar src={'../images/8.jpg'} className={classes.avatar} />
                   </Grid>
                   <Grid item lg={10}>
                     <Typography className={classes.name}>{pet.name}</Typography>
@@ -149,6 +156,8 @@ function BTable(props) {
               </TableCell>
               
               <TableCell>{pet.species}</TableCell>
+              <TableCell></TableCell>
+
               <TableCell>
                 <button
                   className={classes.status}
@@ -168,7 +177,6 @@ function BTable(props) {
                   {pet.status}
                 </button>
               </TableCell>
-              
             </TableRow>
           ))}
         </TableBody>
