@@ -62,4 +62,9 @@ Removes the Attr identified by the given map.
 
 https://stackoverflow.com/questions/20377837/how-to-access-custom-attributes-from-event-object-in-react
 
+THIS Project is dedicated to my dog Bertie!
+
+![IMG_8633](https://user-images.githubusercontent.com/49768581/127381317-cfd8443a-c0ac-452c-86c9-6b58e2e3f5f8.JPG)
+![IMG_8488](https://user-images.githubusercontent.com/49768581/127381321-640df3c1-ae76-43b1-a147-fc697eb0c5d0.JPG)
+![IMG_8487](https://user-images.githubusercontent.com/49768581/127381324-b1d3d66b-7133-4e85-a033-d86f94305095.JPG)
 
