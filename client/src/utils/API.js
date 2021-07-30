@@ -3,7 +3,7 @@ import axios from "axios";
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
   // Gets all pets
-  getPets: function() {
+  getPets: function(pets) {
     return axios.get("/api/pets");
   },
   // Gets the pet with the given id
