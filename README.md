@@ -11,3 +11,10 @@ Step 3) start mongodb by running mongod in terminal and connect to mongodb (leav
 Step 4) npm start in root directory: and you should successfully be listening to the API server running on 3001 & client should compile and display on your https localhost 3000
 Step 5) click the colored button to update pet status 
 
+
+THIS Project is dedicated to my dog Bertie!
+
+![IMG_8633](https://user-images.githubusercontent.com/49768581/127381317-cfd8443a-c0ac-452c-86c9-6b58e2e3f5f8.JPG)
+![IMG_8488](https://user-images.githubusercontent.com/49768581/127381321-640df3c1-ae76-43b1-a147-fc697eb0c5d0.JPG)
+![IMG_8487](https://user-images.githubusercontent.com/49768581/127381324-b1d3d66b-7133-4e85-a033-d86f94305095.JPG)
+
