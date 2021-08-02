@@ -8,8 +8,9 @@ STEPS
 Step 1) clone GitHub repository 
 Step 2) npm install node modules, create package.Json locked
 Step 3) start mongodb by running mongod in terminal and connect to mongodb (leave running in background)
-Step 4) npm start in root directory: and you should successfully be listening to the API server running on 3001 & client should compile and display on your https localhost 3000
-Step 5) click the colored button to update pet status 
+Step 4) node scripts/seedDB.js to populate the data and create database
+Step 5) npm start in root directory: and you should successfully be listening to the API server running on 3001 & client should compile and display on your https localhost 3000
+Step 6) click the colored button to update pet status 
 
 
 THIS Project is dedicated to my dog Bertie!
